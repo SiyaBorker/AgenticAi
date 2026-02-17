@@ -25,7 +25,14 @@ venv\Scripts\activate
 pip install -r requirements.txt
 ```
 
-## 4. Run the Project
+## 4. Install LLM Model
+
+```bash
+irm https://ollama.com/install.ps1 | iex
+ollama pull phi3
+```
+
+## 5. Run the Project
 
 ```bash
 python main.py

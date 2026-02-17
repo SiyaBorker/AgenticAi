@@ -65,6 +65,7 @@ Rules:
 - If no extension can be determined, use null.
 - Do NOT invent paths.
 - Do NOT combine fields.
+- Do not try to guess the path just give wherver you think the user is referring to. We will handle the ambiguity later.
 
 Examples:
 

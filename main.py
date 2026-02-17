@@ -1,6 +1,6 @@
 from stt.stt_service import STTService
-from intent_parser import parse_intent
-from persistent_folder_indexer import get_or_initialize_index, resolve_folder
+from intent.intent_parser import parse_intent
+from pathresolve.persistent_folder_indexer import get_or_initialize_index, resolve_folder
 
 if __name__ == "__main__":
 

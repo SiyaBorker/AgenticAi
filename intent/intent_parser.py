@@ -50,6 +50,8 @@ Schema:
 }
 
 Rules:
+- do not put comments in the json output
+- if user says all file then use null for extensions
 - Always include dot in extensions (.pdf not pdf).
 - If file types are mentioned (like pdf, word docs, txt),
   convert them into correct extensions.
@@ -132,14 +134,22 @@ def validate_intent(intent):
     elif not isinstance(intent["extensions"], list):
         intent["extensions"] = None
 
-    if intent["extensions"]:
-        cleaned = []
-        for ext in intent["extensions"]:
+    extensions = intent.get("extensions")
+
+    if extensions:
+        clean_ext = []
+        for ext in extensions:
+            if not ext:
+                continue   # skip None or empty values
+            
             if not ext.startswith("."):
                 ext = "." + ext
-            if ext.lower() in ALLOWED_EXTENSIONS:
-                cleaned.append(ext.lower())
-        intent["extensions"] = cleaned if cleaned else None
+            
+            clean_ext.append(ext.lower())
+
+        intent["extensions"] = clean_ext if clean_ext else None
+    else:
+        intent["extensions"] = None
 
     # Validate size
     if intent["size_mb"] is not None:
@@ -159,7 +169,7 @@ def validate_intent(intent):
 # ✅ 5️⃣ Main Parser
 # ----------------------------------
 
-def parse_intent(user_text, model="phi3"):
+def parse_intent(user_text, model="llama3:8b"):
 
     response = ollama.chat(
         model=model,
